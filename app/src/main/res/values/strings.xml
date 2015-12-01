@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">TUI NFC Test</string>
+    <string name="explanation">NFC Test</string>
+    <string name="infoText">Aquí aparecerá la información de la TUI</string>
+    <string name="reset">Reiniciar</string>
+</resources>
