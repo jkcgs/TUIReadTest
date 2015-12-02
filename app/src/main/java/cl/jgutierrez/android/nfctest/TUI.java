@@ -23,13 +23,20 @@ public class TUI {
     // Sectores que contienen los datos
     public static final int[] sectorsToRead = {17, 18, 19, 20, 21};
 
-    private String nombre;
+    private String nombre = null; // Usado para revisar si se han cargado datos
     private String carrera;
+    private String tipo;
     private String RUT;
     private String RUTUniversidad;
     private String nombreUniversidad;
 
+    public TUI(){  }
+
     public TUI(MifareClassic mfc) {
+        loadFromTag(mfc);
+    }
+
+    public void loadFromTag(MifareClassic mfc) {
         try {
             if (!mfc.isConnected()) {
                 mfc.connect();
@@ -58,6 +65,7 @@ public class TUI {
 
                     case BLOCK_CARRERA:
                         carrera = "";
+                        tipo = hexToString(mfc.readBlock(f)).trim();
                         for(int i = 1; i < 3; i++) {
                             data = mfc.readBlock(f+i);
                             carrera += hexToString(data).trim().replace("  ", "");
@@ -136,9 +144,13 @@ public class TUI {
         return nombreUniversidad;
     }
 
+    public boolean isLoaded() {
+        return nombre != null;
+    }
+
     @Override
     public String toString() {
-        return String.format("%s %s | %s | %s %s", nombre, RUT, carrera, nombreUniversidad, RUTUniversidad);
+        return String.format("%s %s | %s, %s | %s %s", nombre, RUT, tipo, carrera, nombreUniversidad, RUTUniversidad);
     }
 
 }
